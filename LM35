@@ -1,0 +1,21 @@
+#include <LiquidCrystal_I2C.h>
+int lm35 = A0;
+LiquidCrystal_I2C lcd(0x27,16,2);
+ 
+void setup() 
+{
+  lcd.begin();
+  analogReference(INTERNAL);
+  lcd.print("S1:");
+  pinMode(A0,INPUT);
+}
+void loop()
+{
+  int sVolt = analogRead(lm35);
+  float sC =sVolt / 9.31; 
+  lcd.setCursor(0, 0);
+  lcd.print(sC);
+  lcd.setCursor(4,0);
+  lcd.print("\337C");
+  delay(100);
+}
