@@ -1,0 +1,115 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+int lm35 = A0;
+int lm35q = A1;
+int sVolt;
+int sVolt2;
+float sC;
+float sC2;
+
+int k = 9;
+int y = 10;
+int m = 11;
+void setup() {
+  
+   lcd.begin();
+   analogReference(INTERNAL);
+   pinMode(A0,INPUT);
+   pinMode(A1,INPUT);
+   
+   pinMode(k, OUTPUT);
+   pinMode(m, OUTPUT);
+   pinMode(y, OUTPUT);
+   
+}
+
+void loop() {
+  
+  sVolt = analogRead(lm35);
+  sC =sVolt / 9.31; 
+  sVolt2 = analogRead(lm35q);
+  sC2 =sVolt2 / 9.31;
+  
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("CPU:");
+  lcd.setCursor(5, 0);
+  lcd.print(sC);
+  lcd.setCursor(11,0);
+  lcd.print("\337C");
+
+  lcd.setCursor(0, 1);
+  lcd.print("GPU:");
+  lcd.setCursor(5, 1);
+  lcd.print(sC2);
+  lcd.setCursor(11,1);
+  lcd.print("\337C");
+  
+  
+ digitalWrite(y, LOW);
+ digitalWrite(k, HIGH);
+  for(int i=0; i<256; i++){
+    analogWrite(m, i);
+    delay(10);
+    }
+ digitalWrite(y, LOW);
+ digitalWrite(m, HIGH);  
+ for(int i=255; i>0; i--){
+    analogWrite(k, i);
+    delay(10);
+    }
+ digitalWrite(k, LOW);
+ digitalWrite(m, HIGH);  
+ for(int i=0; i<256; i++){
+    analogWrite(y, i);
+    delay(10);
+    }
+ digitalWrite(k, LOW);
+ digitalWrite(y, HIGH);
+ for(int i=255; i>0; i--){
+    analogWrite(m, i);
+    delay(10);
+    }
+    
+  sVolt = analogRead(lm35);
+  sC =sVolt / 9.31; 
+  sVolt2 = analogRead(lm35q);
+  sC2 =sVolt2 / 9.31;
+  
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("CPU:");
+  lcd.setCursor(5, 0);
+  lcd.print(sC);
+  lcd.setCursor(11,0);
+  lcd.print("\337C");
+
+  lcd.setCursor(0, 1);
+  lcd.print("GPU:");
+  lcd.setCursor(5, 1);
+  lcd.print(sC2);
+  lcd.setCursor(11,1);
+  lcd.print("\337C");
+  
+ digitalWrite(m, LOW);
+ digitalWrite(y, HIGH);
+ for(int i=0; i<256; i++){
+    analogWrite(k, i);
+    delay(6);
+    }
+ digitalWrite(k, HIGH);
+ digitalWrite(y, HIGH);
+  for(int i=0; i<256; i++){
+    analogWrite(m, i);
+    delay(10);
+    }
+ for(int i=255; i>0; i--){
+    analogWrite(m, i);
+    analogWrite(y, i);
+    delay(15);
+    }
+    delay(100);
+}
