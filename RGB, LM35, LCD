@@ -73,27 +73,6 @@ void loop() {
     analogWrite(m, i);
     delay(10);
     }
-    
-  sVolt = analogRead(lm35);
-  sC =sVolt / 9.31; 
-  sVolt2 = analogRead(lm35q);
-  sC2 =sVolt2 / 9.31;
-  
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("CPU:");
-  lcd.setCursor(5, 0);
-  lcd.print(sC);
-  lcd.setCursor(11,0);
-  lcd.print("\337C");
-
-  lcd.setCursor(0, 1);
-  lcd.print("GPU:");
-  lcd.setCursor(5, 1);
-  lcd.print(sC2);
-  lcd.setCursor(11,1);
-  lcd.print("\337C");
-  
  digitalWrite(m, LOW);
  digitalWrite(y, HIGH);
  for(int i=0; i<256; i++){
